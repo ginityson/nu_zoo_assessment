@@ -1,0 +1,12 @@
+name of DataBase: zooDB
+name of table: animal_table
+name of column: animalfield
+
+
+
+CREATE TABLE animal_table (
+	id SERIAL PRIMARY KEY NOT NULL,
+	animalfield VARCHAR(20) unique
+	);
+
+I realize I did not make a column for the number of animals.
