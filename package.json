@@ -10,7 +10,7 @@
   "author": "ginityson",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.15.1",
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "pg": "^5.1.0"
   }

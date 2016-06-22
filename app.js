@@ -27,12 +27,43 @@ app.get( '/', function( req, res ){
   res.sendFile( path.resolve( 'views/index.html' ) );
 }); // end base url
 
-//
-app.post("/animalTrack", urlencodedParser, function(res, req) {
+//post route for /animalTrack
+app.post("/animalTrack", urlencodedParser, function( req, res ) {
   console.log( 'comming at you from the POST : ' +  req.body.animalfield);
-  
+
   pg.connect( connectionString, function(err, client, done){
     client.query("INSERT INTO animal_table (animalfield) VALUES ($1)", [req.body.animalfield]);
-  });
+    //
+    res.send( true );
+  });//end of connect
+    });//end of post
+
+//  url get /displayanimals
+app.get( '/displayAnimals', function( req, res ) {
+  console.log( 'Yea! We can see the animals in displayAnimals' );
+  //get all animals from the database
+  pg.connect( connectionString, function( err, client, done){
+    if( err ) {
+      console.log( err );
+    }//end of if
+    else {
+      //animal Array
+      var animalResults = [];
+      var allAnimals = client.query( 'SELECT * FROM animal_table ORDER BY id DESC' );
+    //}//end of else
+
+    //for each row of animals
+    allAnimals.on( 'row', function ( row ) {
+      //push onto animalResults array
+      animalResults.push( row );
+    });//end of row of animals
+
+      //why is this here exactly
+    allAnimals.on( 'end', function(){
+      done();
+        //return animalResults array back as rows in json
+        return res.json( animalResults );
+    });//end of end
+  }//end of pg.connect
+});//end of displayAnimals//
 });
-//

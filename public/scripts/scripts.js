@@ -1,45 +1,53 @@
 console.log('Bam! in scripts.js');
 
   $(document).ready(function(){
-    $('#submit-button').on('click', function(){
+    console.log( 'checking on the jquery');
+    $('#addAnimalButton').on('click', function(){
 
-      console.log("Zoo Button Clicked!");
-    });//end submit-button
+      //look into this is, for preventing spamming button
+      event.preventDefault();
+getAnimals();
+      //get a value for the animalNameIn
+      var animalName = $ ( '#animalNameIn' ).val();
+      console.log( 'cought the animalName: ' + animalName );
 
 
+    //create animalObject to send
+    var animalObjectToSend = {
+      'animalfield': animalName
+    };//end animalObjectToSend
 
-
-    function getData() {
-    $.ajax({
-        type: 'GET',
-        url: '/records',
-        success: function( data ) {
-        exhibitAnimals( data );
-        }
-    });
-}
-function postData() {
-  var animalToSend = {
-  "animalfield": ( '#animalIn' ).val()
-
-};
+    //ajax call/post for /animalTrack remember post needs success
     $.ajax({
       type: 'POST',
       url: '/animalTrack',
-      data: animalToSend
-    });//end ajax
-    getData();
-  }//end postData
+      data: animalObjectToSend,
+      success: function (data) {
+        exhibitAnimals(data);
+      }//end of success
+    });//end ajax POST
+  });//end addAnimalButton click
+
+    function getAnimals() {
+      //get the animals back from database zooDB
+    $.ajax({
+        type: 'GET',
+        url: '/displayAnimals',
+        success: function( data ) {
+          exhibitAnimals( data );
+      }//end of success
+    });//end of ajax GET
+  }//end of function getAnimals
 
 
-function exhibitAnimals( critters ){
-  console.log( "in exhibitAnimals: " + critters );
-  // empty output div and input field
+  function exhibitAnimals( critters ){
+    console.log( "in exhibitAnimals: " + critters );
+    // empty output div and input field
   $( '#animalIn' ).val( "" );
   $( '#outputDiv' ).empty();
   // append each row to output div
   for( var i=0; i<critters.length; i++ ){
       $( '#outputDiv' ).append( '<p><b>animal: ' + critters[ i ].animalfield + '</b></p>' );
-    }
-}
+    }//end the for loop
+  } //end function exhibitAnimals
 });//end document ready?
