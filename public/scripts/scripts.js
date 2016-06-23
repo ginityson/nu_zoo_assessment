@@ -6,7 +6,7 @@ console.log('Bam! in scripts.js');
 
       //look into this is, for preventing spamming button
       event.preventDefault();
-getAnimals();
+      getAnimals();
       //get a value for the animalNameIn
       var animalName = $ ( '#animalNameIn' ).val();
       console.log( 'cought the animalName: ' + animalName );

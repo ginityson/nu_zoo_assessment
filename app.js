@@ -11,6 +11,9 @@ var urlencodedParser = bodyParser.urlencoded( {extended: false} );
 //require pg
 var pg = require ( 'pg');
 
+//require my randomNumber module
+//var randomNumber = require('/modules/randomNumber');
+
 var connectionString =  ('postgres://localhost:5432/zooDB');
 
 //spin up server
@@ -34,6 +37,16 @@ app.post("/animalTrack", urlencodedParser, function( req, res ) {
   pg.connect( connectionString, function(err, client, done){
     client.query("INSERT INTO animal_table (animalfield) VALUES ($1)", [req.body.animalfield]);
     //
+    // INSERT INTO contacts (numbers)
+    // SELECT distinct array[
+    //         (random() * 99999999)::integer,
+    //         (random() * 99999999)::integer,
+    //         (random() * 99999999)::integer,
+    //         (random() * 99999999)::integer
+    //     ]
+    // FROM generate_series(1, 1000000) AS x(id);
+
+
     res.send( true );
   });//end of connect
     });//end of post
